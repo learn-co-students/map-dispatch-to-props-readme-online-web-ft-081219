@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
-import { addItem } from  './actions/items';
+import { addItem } from './actions/items';
 
 class App extends Component {
 
-  handleOnClick() {
-    this.props.store.dispatch(addItem());
+  handleOnClick = event => {
+    this.props.addItem()
   }
 
   render() {
+    // debugger
     return (
       <div className="App">
-        <button onClick={(event) => this.handleOnClick(event)}>
+        <button onClick={this.handleOnClick}>
           Click
           </button>
         <p>{this.props.items.length}</p>
@@ -27,4 +28,20 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, { addItem: addItem })(App);
+
+//another shorter way of doing the same, using arrow function as a first argument:
+// export default connect(state => ({ items: state.items }, { addItem: addItem })(App);
+
+
+
+//an alternative way, longer way of using mapDispatchToProps function
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     addItem: () => {
+//       dispatch(addItem())
+//     }
+//   };
+// };
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
